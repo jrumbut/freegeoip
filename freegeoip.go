@@ -206,22 +206,29 @@ func LookupHandler() http.HandlerFunc {
 		}
 		// GET continues...
 		var srcIP net.IP
+		fmt.Println("GET continues")
+		fmt.Println(net.SplitHostPort(r.RemoteAddr))
 		if ip, _, err := net.SplitHostPort(r.RemoteAddr); err != nil {
 			srcIP = net.ParseIP(r.RemoteAddr) // Use X-Real-IP
 		} else {
 			srcIP = net.ParseIP(ip)
 		}
+		fmt.Println("srcIP")
+		fmt.Println(srcIP)
 		if srcIP == nil {
+			fmt.Println("srcIP is nil")
 			http.Error(w, http.StatusText(400), 400)
 			return
 		}
 		nsrcIP, err := ip2int(srcIP)
+		fmt.Println("nsrcIP")
+		fmt.Println(nsrcIP)
 		if err != nil {
 			if conf.Debug {
 				log.Println(err)
 			}
-			http.Error(w, http.StatusText(400), 400)
-			return
+			//http.Error(w, http.StatusText(400), 400)
+			//return
 		}
 		// Check quota.
 		if conf.Limit.MaxRequests > 0 {
@@ -243,6 +250,8 @@ func LookupHandler() http.HandlerFunc {
 			nqueryIP uint32
 		)
 		// Parse URL (e.g. /csv/ip, /xml/)
+		fmt.Println("Parse URL")
+		fmt.Println(r.URL.Path)
 		a := strings.SplitN(r.URL.Path, "/", 3)
 		if len(a) == 3 && a[2] != "" {
 			addrs, err := net.LookupHost(a[2])
