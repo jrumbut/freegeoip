@@ -35,8 +35,8 @@ The following instructions are for Debian and Ubuntu servers.
 Make sure Go is installed and both $GOROOT and $GOPATH are set, then run:
 
 	apt-get install build-essential libsqlite3-dev pkg-config
-	go get github.com/fiorix/freegeoip
-	cd $GOPATH/src/github.com/fiorix/freegeoip
+	go get github.com/jrumbut/freegeoip
+	cd $GOPATH/src/github.com/jrumbut/freegeoip
 	go build
 
 On recent OSX you might have to set the CC=clang before `go build` if
